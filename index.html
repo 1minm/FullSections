@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="style.css" />
+	</head>
+	<body>
+		<main>
+			<section>
+				<div class="container">
+					<div class="content">
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ut
+						nihil repudiandae id consectetur dolore rerum quae? Possimus
+						voluptate atque nostrum quod, debitis, perspiciatis magni vero
+						officia distinctio amet obcaecati. Lorem ipsum dolor sit amet
+						consectetur adipisicing elit. Delectus, nesciunt dolorem! Incidunt
+						ullam dolores quos minima laboriosam, numquam quis cum repellendus
+						dolorem vitae quas dignissimos a asperiores neque beatae eaque?
+					</div>
+				</div>
+			</section>
+			<section>
+				<div class="container">
+					<div class="content">
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ut
+						nihil repudiandae id consectetur dolore rerum quae? Possimus
+						voluptate atque nostrum quod, debitis, perspiciatis magni vero
+						officia distinctio amet obcaecati. Lorem ipsum dolor sit amet
+						consectetur adipisicing elit. Delectus, nesciunt dolorem! Incidunt
+						ullam dolores quos minima laboriosam, numquam quis cum repellendus
+						dolorem vitae quas dignissimos a asperiores neque beatae eaque?
+					</div>
+				</div>
+			</section>
+			<section>
+				<div class="container">
+					<div class="content">
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo ut
+						nihil repudiandae id consectetur dolore rerum quae? Possimus
+						voluptate atque nostrum quod, debitis, perspiciatis magni vero
+						officia distinctio amet obcaecati. Lorem ipsum dolor sit amet
+						consectetur adipisicing elit. Delectus, nesciunt dolorem! Incidunt
+						ullam dolores quos minima laboriosam, numquam quis cum repellendus
+						dolorem vitae quas dignissimos a asperiores neque beatae eaque?
+					</div>
+				</div>
+			</section>
+		</main>
+		<script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@beta/bundled/locomotive-scroll.min.js"></script>
+		<script>
+			;(function () {
+				const locomotiveScroll = new LocomotiveScroll()
+			})()
+
+			// Smooth lerp function
+			function lerp(start, end, t) {
+				return start * (1 - t) + end * t
+			}
+
+			// Function to resize body height to match window inner height with smooth lerp effect
+			function resizeBodyHeight() {
+				const targetHeight = window.innerHeight
+				let currentHeight = document.body.clientHeight
+
+				// Set up lerp parameters
+				const duration = 300 // milliseconds
+				let startTime = null
+
+				// Animation function
+				function animate(timestamp) {
+					if (!startTime) startTime = timestamp
+					const progress = timestamp - startTime
+					const t = Math.min(progress / duration, 1) // Ensure t doesn't exceed 1
+					const newHeight = lerp(currentHeight, targetHeight, t)
+
+					document.body.style.height = newHeight + "px"
+
+					if (t < 1) {
+						// Continue animation
+						requestAnimationFrame(animate)
+					}
+				}
+
+				// Start animation
+				requestAnimationFrame(animate)
+			}
+
+			// Initial resize
+			resizeBodyHeight()
+
+			// Event listener for window resize
+			window.addEventListener("resize", resizeBodyHeight)
+		</script>
+	</body>
+</html>
