@@ -53,32 +53,45 @@
 		<script>
 			const lenis = new Lenis({ lerp: 0.05 })
 			lenis.on("scroll", ScrollTrigger.update)
-			gsap.ticker.add((time) => lenis.raf(time * 1000))
+			gsap.ticker.add((time) => {
+				lenis.raf(time * 1000)
+			})
 			gsap.ticker.lagSmoothing(0)
 
-			const lerp = (start, end, t) => start * (1 - t) + end * t
-
+			const lerp = (start, end, t) => {
+				return start * (1 - t) + end * t
+			}
 			const resizeBodyHeight = () => {
 				const targetHeight = window.innerHeight
-				let currentHeight = document.documentElement.clientHeight
+				let currentHeight = document.body.clientHeight
 
-				const duration = 300
+				// Set up lerp parameters
+				const duration = 300 // milliseconds
 				let startTime = null
 
+				// Animation const
 				const animate = (timestamp) => {
 					if (!startTime) startTime = timestamp
 					const progress = timestamp - startTime
-					const t = Math.min(progress / duration, 1)
+					const t = Math.min(progress / duration, 1) // Ensure t doesn't exceed 1
 					const newHeight = lerp(currentHeight, targetHeight, t)
+
 					document.body.style.height = newHeight + "px"
-					if (t < 1) requestAnimationFrame(animate)
+
+					if (t < 1) {
+						// Continue animation
+						requestAnimationFrame(animate)
+					}
 				}
 
+				// Start animation
 				requestAnimationFrame(animate)
 			}
 
+			// Initial resize
 			resizeBodyHeight()
 
+			// Event listener for window resize
 			window.addEventListener("resize", resizeBodyHeight)
 		</script>
 	</body>
