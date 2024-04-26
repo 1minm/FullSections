@@ -47,49 +47,38 @@
 				</div>
 			</section>
 		</main>
-		<script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@beta/bundled/locomotive-scroll.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 		<script>
-			;(function () {
-				const locomotiveScroll = new LocomotiveScroll()
-			})()
+			const lenis = new Lenis({ lerp: 0.05 })
+			lenis.on("scroll", ScrollTrigger.update)
+			gsap.ticker.add((time) => lenis.raf(time * 1000))
+			gsap.ticker.lagSmoothing(0)
 
-			// Smooth lerp function
-			function lerp(start, end, t) {
-				return start * (1 - t) + end * t
-			}
+			const lerp = (start, end, t) => start * (1 - t) + end * t
 
-			// Function to resize body height to match window inner height with smooth lerp effect
-			function resizeBodyHeight() {
+			const resizeBodyHeight = () => {
 				const targetHeight = window.innerHeight
-				let currentHeight = document.body.clientHeight
+				let currentHeight = document.documentElement.clientHeight
 
-				// Set up lerp parameters
-				const duration = 100 // milliseconds
+				const duration = 300
 				let startTime = null
 
-				// Animation function
-				function animate(timestamp) {
+				const animate = (timestamp) => {
 					if (!startTime) startTime = timestamp
 					const progress = timestamp - startTime
-					const t = Math.min(progress / duration, 1) // Ensure t doesn't exceed 1
+					const t = Math.min(progress / duration, 1)
 					const newHeight = lerp(currentHeight, targetHeight, t)
-
 					document.body.style.height = newHeight + "px"
-
-					if (t < 1) {
-						// Continue animation
-						requestAnimationFrame(animate)
-					}
+					if (t < 1) requestAnimationFrame(animate)
 				}
 
-				// Start animation
 				requestAnimationFrame(animate)
 			}
 
-			// Initial resize
 			resizeBodyHeight()
 
-			// Event listener for window resize
 			window.addEventListener("resize", resizeBodyHeight)
 		</script>
 	</body>
